@@ -1,0 +1,35 @@
+<style>.minby-site__container{-ms-flex:1;flex:1;padding:3rem 0}.minby-form button,.minby-form input{border:0;color:inherit;font:inherit;margin:0;outline:0;padding:0;transition:background-color .3s}.minby-form button{width:100%}.minby-form input[type="password"],.minby-form input[type="text"],.minby-form input[type="email"]{width:100%}.minby-form--login{color:#606468;}.minby-form--login label,.minby-form--login input[type="password"],.minby-form--login input[type="text"],.minby-form--login input[type="email"],.minby-form--login button{border-radius:.25rem;padding:1rem}.minby-form--login label{background-color:#363b41;border-bottom-right-radius:0;border-top-right-radius:0;padding-left:1.25rem;padding-right:1.25rem;position:relative;}.minby-form--login label:before{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}.minby-form--login input[type="password"],.minby-form--login input[type="text"],.minby-form--login input[type="email"]{background-color:#3b4148;border-bottom-left-radius:0;border-top-left-radius:0;}.minby-form--login input[type="password"]:focus,.minby-form--login input[type="text"]:focus,.minby-form--login input[type="email"]:focus,.minby-form--login input[type="password"]:hover,.minby-form--login input[type="text"]:hover,.minby-form--login input[type="email"]:hover{background-color:#434a52}.minby-form--login button{background-color:#57ab43;color:#fff;font-weight:bold;text-transform:uppercase;}.minby-form--login button:focus,.minby-form--login button:hover{background-color:#4e9a3c}.minby-form__field{display:-ms-flexbox;display:flex;margin-bottom:1rem}.minby-form__input{-ms-flex:1;flex:1}.minby-align{-ms-flex-align:center;align-items:center;display:-ms-flexbox;display:flex;-ms-flex-direction:row;flex-direction:row;max-height:100vh}.minby-hidden{border:0;clip:rect(0 0 0 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.minby-none{display:none}.minby-text--center{text-align:center}.minby-grid__container{margin:0 auto;max-width:20rem;width:90%}</style><div class="minby-align"><div class="minby-site__container"><div class="minby-grid__container"><form id="frmLogin" action="/minby/index.php" method="post" class="minby-form minby-form--login"><div class="minby-form__field"><label for="login__username" class="fa fa-user"><span class="minby-hidden">E-mail</span></label><input id="login__username" type="email" name="login__username" placeholder="E-mail" required="required" class="minby-form__input"/></div><div class="minby-form__field"><label for="login__password" class="fa fa-lock"><span class="minby-hidden">Senha</span></label><input id="login__password" type="password" name="login__password" placeholder="Senha" required="required" class="minby-form__input"/></div><div class="minby-form__field"><button type="submit" formnovalidate="formnovalidate">Entrar</button></div></form></div></div></div><script>(function(){
+	'use strict';
+
+	function minbyAjaxSuccess(frm) {
+		var r = JSON.parse(this.responseText);
+		//- console.debug(r);
+		if (r.success) {
+			//- frm.classList.remove('submitted');
+			frm.reset();
+			window.location = r.url;
+			return null;
+		}
+		alert('E-mail ou senha inválida');
+		//- growl().notifica(r.title || 'Aviso', r.message, 'theNotification--theme-red');
+	}
+
+	function minbyLogin(frm) {
+		var xhr;
+		xhr = new XMLHttpRequest();
+		xhr.onload = minbyAjaxSuccess.bind(xhr, frm);
+		xhr.open('POST', frm.action);
+		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+		xhr.send(new FormData(frm));
+	}
+
+	function onSubmit(event) {
+		var frm;
+		event.preventDefault();
+		frm = event.currentTarget;
+		minbyLogin(frm);
+	}
+
+	var frmLogin = document.querySelector('#frmLogin');
+	frmLogin.addEventListener('submit', onSubmit);
+})();</script>

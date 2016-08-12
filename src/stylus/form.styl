@@ -1,0 +1,136 @@
+// Variables
+$base__bgcolor = #2c3338
+$base__color = #606468
+$base__font-family-fallback = sans-serif
+$base__font-family = 'Open Sans'
+$base__font-size = .875rem
+$base__font-weight = 400
+$base__line-height = 1.5
+
+$form--login__border-radus = .25rem
+$form--login__color = #606468
+$form--login__label__bgcolor = #363b41
+$form--login__input__bgcolor = #3b4148
+$form--login__input__bgcolor--hover = #434A52
+$form--login__submit__bgcolor = #57AB43
+$form--login__submit__bgcolor--hover = darken($form--login__submit__bgcolor, 10%)
+$form--login__submit__color = #FFF
+
+$grid__container__max-width = 20rem
+$grid__container__width = 90%
+
+$link__color = #eee
+
+// Base
+
+// *
+// 	box-sizing: border-box
+
+// Layout
+.minby-site
+	&__container
+		flex: 1
+		padding: 3rem 0
+
+// Forms
+.minby-form
+	button
+	input
+		border: 0
+		color: inherit
+		font: inherit
+		margin: 0
+		outline: 0
+		padding: 0
+		transition: background-color .3s
+
+	button
+		width: 100%
+
+	input
+		&[type="password"]
+		&[type="text"]
+		&[type="email"]
+			width: 100%
+
+	&--login
+		color: $form--login__color
+		label
+		input[type="password"]
+		input[type="text"]
+		input[type="email"]
+		button
+			border-radius: $form--login__border-radus
+			padding: 1rem
+
+		label
+			background-color: $form--login__label__bgcolor
+			border-bottom-right-radius: 0
+			border-top-right-radius: 0
+			padding-left: 1.25rem
+			padding-right: 1.25rem
+			position: relative
+			&:before
+				position: absolute
+				top: 50%
+				left: 50%
+				transform: translate(-50%, -50%)
+
+		input
+			&[type="password"]
+			&[type="text"]
+			&[type="email"]
+				background-color: $form--login__input__bgcolor
+				border-bottom-left-radius: 0
+				border-top-left-radius: 0
+				&:focus
+				&:hover
+					background-color: $form--login__input__bgcolor--hover
+
+		button
+			background-color: $form--login__submit__bgcolor
+			color: $form--login__submit__color
+			font-weight: bold
+			text-transform: uppercase
+			&:focus
+			&:hover
+				background-color: $form--login__submit__bgcolor--hover
+
+	&__field
+		display: flex
+		margin-bottom: 1rem
+
+	&__input
+		flex: 1
+
+// Utilities
+.minby-align
+	align-items: center
+	display: flex
+	flex-direction: row
+	max-height: 100vh
+	// background-color: red
+
+.minby-hidden
+	border: 0
+	clip: rect(0 0 0 0)
+	height: 1px
+	margin: -1px
+	overflow: hidden
+	padding: 0
+	position: absolute
+	width: 1px
+
+.minby-none
+	display: none
+
+.minby-text
+	&--center
+		text-align: center
+
+// Grid
+.minby-grid
+	&__container
+		margin: 0 auto
+		max-width: $grid__container__max-width
+		width: $grid__container__width

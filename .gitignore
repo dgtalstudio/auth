@@ -1,0 +1,6 @@
+dev
+vendor
+node_modules
+composer.lock
+*.log
+backend/_sendgrid.php

@@ -1,0 +1,55 @@
+{
+  "name": "minby-forms",
+  "version": "1.0.0",
+  "description": "Apenas um show",
+  "keywords": [
+    "form",
+    "ga",
+    "site"
+  ],
+  "license": "UNLICENSED",
+  "author": "Thiago Lagden",
+  "scripts": {
+    "prod": "env NODE_ENV=production gulp",
+    "prestart": "gulp",
+    "start": "ws -p 3131 -d dev"
+  },
+  "dependencies": {
+    "lagden-growl": "2.1.0",
+    "lagden-validation": "1.1.0",
+    "lagden-vanilla-masker": "1.0.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "6.3.6",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-jade": "1.1.0",
+    "gulp-postcss": "6.1.1",
+    "gulp-stylus": "2.5.0",
+    "lagden-promisify": "2.0.0",
+    "lost": "6.8.1",
+    "nib": "1.1.0",
+    "postcss-inline-base64": "2.0.0",
+    "rupture": "0.6.1",
+    "xo": "0.16.0"
+  },
+  "engines": {
+    "node": ">=5.1.0"
+  },
+  "xo": {
+    "ignore": [
+      "dev/js/{,*/}*.js"
+    ],
+    "envs": [
+      "es6"
+    ],
+    "global": [
+      "window",
+      "document",
+      "define",
+      "require",
+      "requirejs"
+    ],
+    "esnext": true
+  },
+  "main": "index.html"
+}

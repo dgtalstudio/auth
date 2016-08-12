@@ -1,0 +1,1 @@
+html{height:100%}body{background-color:$base__bgcolor;color:$base__color;font:$base__font-weight $base__font-size/$base__line-height $base__font-family,$base__font-family-fallback;margin:0;min-height:100%}a{color:$link__color;outline:0;text-decoration:none;}a:focus,a:hover{text-decoration:underline}
