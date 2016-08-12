@@ -12,7 +12,7 @@
   "scripts": {
     "prod": "env NODE_ENV=production gulp",
     "prestart": "gulp",
-    "start": "ws -p 3131 -d dev"
+    "start": "ws -p 3131 -d dev & gulp watch"
   },
   "dependencies": {
     "lagden-growl": "2.1.0",

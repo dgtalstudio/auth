@@ -1,23 +1,24 @@
-.minby-align
-	.minby-site__container
-		.minby-grid__container
-			//- form#frmLogin.minby-form.minby-form--login(action='http://helborbellavitta2.com.br/minby/index.php' method='post')
-			form#frmLogin.minby-form.minby-form--login(action='/minby/index.php' method='post')
-				.minby-form__field
-					label.fa.fa-user(for='login__username')
-						span.minby-hidden E-mail
-					input#login__username.minby-form__input(type='email' name='login__username' placeholder='E-mail' required)
-					//- input#login__username.minby-form__input(type='email' name='login__username' placeholder='E-mail' value="eric@previewserv.com.br" required)
-				.minby-form__field
-					label.fa.fa-lock(for='login__password')
-						span.minby-hidden Senha
-					input#login__password.minby-form__input(type='password' name='login__password' placeholder='Senha' required)
-					//- input#login__password.minby-form__input(type='password' name='login__password' placeholder='Senha' value="111" required)
-				.minby-form__field
-					button(type='submit', formnovalidate) Entrar
-			//- p.minby-text--center
-			//- 	| Esqueceu a senha? 
-			//- 	a(href='#') Recupere agora
+//- form#frmLogin.frm.frm--login(action='http://helborbellavitta2.com.br/minby/index.php' method='post')
+form#frmLogin.frm.frm__login(action='/minby/index.php' method='post')
+	.frm__row
+		label.frm__label(for='login__username') Usuário
+		input#login__username.frm__input(type='email' name='login__username' placeholder='Digite seu e-mail' required)
+		//- input#login__username.frm__input(type='email' name='login__username' placeholder='Digite seu e-mail' value='eric@previewserv.com.br' required)
+		span.frm__line
+
+	.frm__row
+		label.frm__label(for='login__password') Senha
+		input#login__password.frm__input(type='password' name='login__password' placeholder='Digite sua senha' required)
+		//- input#login__password.frm__input(type='password' name='login__password' placeholder='Digite sua senha' value='111' required)
+		span.frm__line
+
+	.frm__row.frm__row--center
+		button.btn.btn--brand(type='submit', formnovalidate) Entrar
+		p
+			a#recuperarSenha.hlink-nd(href='#recuperarSenha') Solicitar nova senha
+			br
+			| Tem dúvida de como fazer o acesso? 
+			a.hlink-st(href='http://portaldeaplicacoes.com/portaldeaplicacoes.com/minby/videos/1%20Acesso/1%20Acesso.html' target='_blank') Clique AQUI!
 
 script.
 	(function(){
@@ -30,20 +31,46 @@ script.
 				//- frm.classList.remove('submitted');
 				frm.reset();
 				window.location = r.url;
-				return null;
 			}
-			alert('E-mail ou senha inválida');
-			//- growl().notifica(r.title || 'Aviso', r.message, 'theNotification--theme-red');
+			growl().notifica('Atenção', 'E-mail ou senha inválida', 'theNotification--red');
 		}
 
 		function minbyLogin(frm) {
 			var xhr;
+			var formData = new FormData(frm);
 			xhr = new XMLHttpRequest();
 			xhr.onload = minbyAjaxSuccess.bind(xhr, frm);
 			xhr.open('POST', frm.action);
 			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-			xhr.send(new FormData(frm));
+			if (formData.get('login__username') && formData.get('login__password')) {
+				xhr.send(formData);
+			} else {
+				growl().notifica('Atenção', 'Faltam dados!', 'theNotification--red');
+			}
 		}
+
+		function recuperarSuccess() {
+			var r = JSON.parse(this.responseText);
+			//- console.debug(r);
+			if (r && r.success) {
+				growl().notifica('Atenção', r.message, 'theNotification--green');
+				swal.close();
+			} else {
+				growl().notifica('Atenção', r.message, 'theNotification--red');
+			}
+		}
+
+		function recuperar(v) {
+			var xhr;
+			var formData;
+			xhr = new XMLHttpRequest();
+			xhr.onload = recuperarSuccess;
+			formData = new FormData()
+			formData.append('email', v);
+			xhr.open('POST', '/minby/recupera.php');
+			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+			xhr.send(formData);
+		};
 
 		function onSubmit(event) {
 			var frm;
@@ -52,6 +79,34 @@ script.
 			minbyLogin(frm);
 		}
 
+		function onSolicitar(event) {
+			event.preventDefault();
+			swal({
+				title: 'Nova senha',
+				text: 'Solicite uma nova senha, através do seu e-mail:',
+				type: 'input',
+				showCancelButton: true,
+				closeOnConfirm: false,
+				animation: 'slide-from-top',
+				inputPlaceholder: 'Digite o seu e-mail' ,
+				confirmButtonColor: '#8F0620',
+				confirmButtonText: 'Solicitar',
+			}, function (inputValue) {
+				if (inputValue === false) {
+					return false;
+				}
+				if (inputValue === '') {
+					growl().notifica('Atenção', 'Você precisa digitar seu e-mail!', 'theNotification--red');
+					return false;
+				} else {
+					recuperar(inputValue);
+				}
+			});
+		}
+
 		var frmLogin = document.querySelector('#frmLogin');
 		frmLogin.addEventListener('submit', onSubmit);
+
+		var recuperarSenha = document.querySelector('#recuperarSenha');
+		recuperarSenha.addEventListener('click', onSolicitar);
 	})();

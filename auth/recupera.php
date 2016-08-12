@@ -4,10 +4,7 @@ cors();
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
 	// Dados
-	$campos = [
-		'login__username',
-		'login__password'
-	];
+	$campos = ['email'];
 
 	$dados = [];
 	foreach ($campos as $c) {
@@ -17,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 	// Default Response
 	$json_response = [
 		'success' => false,
-		'url' => ''
+		'message' => 'Falha no servidor'
 	];
 
 	// WS Urls
@@ -46,25 +43,24 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 		// Argumentos
 		$args = [
-			'Username' => $dados['login__username'],
-			'Password' => $dados['login__password']
+			'Email' => $dados['email']
 		];
 
 		// Debug
 		// var_dump($client->__getFunctions());
 		// var_dump($args);
-		// die;
 
 		// Chamada
-		$method = 'Login';
+		$method = 'RecuperarSenha';
 		$res = $client->$method($args);
 
 		// Response
-		if (isset($res->URL) && $res->URL) {
-			$url = str_replace('[[USER]]', $args['Username'], $res->URL);
-			$url = str_replace('[[PASS]]', urlencode($args['Password']), $url);
-			$json_response['success'] = true;
-			$json_response['url'] = $url;
+		if (isset($res->Retorno) && $res->Retorno) {
+			$r = split('|', $res->Retorno);
+			if (count($r) === 2) {
+				$json_response['success'] = boolval($r[0]);
+				$json_response['message'] = $r[1];
+			}
 		}
 	} catch (Exception $e) {
 		$json_response['error'] = $e->getMessage();
