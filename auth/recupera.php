@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 		// Response
 		if (isset($res->Retorno) && $res->Retorno) {
-			$r = split('|', $res->Retorno);
+			$r = explode('|', $res->Retorno);
 			if (count($r) === 2) {
 				$json_response['success'] = boolval($r[0]);
 				$json_response['message'] = $r[1];

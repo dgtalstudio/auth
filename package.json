@@ -10,7 +10,7 @@
   "license": "UNLICENSED",
   "author": "Thiago Lagden",
   "scripts": {
-    "prod": "env NODE_ENV=production gulp",
+    "prod": "NODE_ENV=production gulp",
     "prestart": "gulp",
     "start": "ws -p 3131 -d dev & gulp watch"
   },

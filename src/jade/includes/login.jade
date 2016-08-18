@@ -14,6 +14,8 @@ form#frmLogin.frm.frm__login(action='/minby/index.php' method='post')
 
 	.frm__row.frm__row--center
 		button.btn.btn--brand(type='submit', formnovalidate) Entrar
+
+	.frm__row.frm__row--center
 		p
 			a#recuperarSenha.hlink-nd(href='#recuperarSenha') Solicitar nova senha
 			br
@@ -26,13 +28,14 @@ script.
 
 		function minbyAjaxSuccess(frm) {
 			var r = JSON.parse(this.responseText);
-			//- console.debug(r);
-			if (r.success) {
+			console.debug(this.responseText);
+			if (r && r.success) {
 				//- frm.classList.remove('submitted');
 				frm.reset();
 				window.location = r.url;
+			} else {
+				growl().notifica('Atenção', 'E-mail ou senha inválida', 'theNotification--red');
 			}
-			growl().notifica('Atenção', 'E-mail ou senha inválida', 'theNotification--red');
 		}
 
 		function minbyLogin(frm) {
@@ -42,7 +45,7 @@ script.
 			xhr.onload = minbyAjaxSuccess.bind(xhr, frm);
 			xhr.open('POST', frm.action);
 			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-			if (formData.get('login__username') && formData.get('login__password')) {
+			if (frm['login__username'].value && frm['login__password'].value) {
 				xhr.send(formData);
 			} else {
 				growl().notifica('Atenção', 'Faltam dados!', 'theNotification--red');
